@@ -1,0 +1,6 @@
+id;firstname;lastname;email;birthday;password;role
+1;Anastasia;Santa;asanta@user.com;2008-01-01;$2a$10$NAktC/XBl.16hEtLkkdkyuwcTUqbjhHaLelARpHF8hVrVFk16zuse;USER
+2;John;Chivas;jchivas@user.com;1801-02-02;$2a$10$Po2HH9.sTUBU4C0tHNBoMushYE9kVI6JE05PfYHvD1dtU8nkqBr0O;USER
+3;Jack;Daniels;jdaniels@user.com;1900-03-03;$2a$10$U5zf8XHwhWa0B3CCMRBNp.a.8tBsoxPVSfkzsVsLEYqcrC6RYC826;USER
+4;Johnnie;Walker;jwalker@user.com;1867-04-04;$2a$10$NGNg8p2Q5FJVgRLDr2wb0.HsmMlCjGfScq7FDQXQgDnfhyzVgcC/q;USER
+5;John;Jameson;jjameson@user.com;1780-05-05;$2a$10$9b6fd2HgYwOI0uauL.82tuxq0eV1ZizAF1Bqb.5Ml8J3XhpnLNSUq;USER

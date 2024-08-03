@@ -18,12 +18,17 @@ import dev.sosnovsky.task.management.system.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
+
+import static dev.sosnovsky.task.management.system.specification.TaskSpecification.*;
 
 @Service
 @AllArgsConstructor
@@ -41,6 +46,14 @@ public class TaskServiceImpl implements TaskService {
         task.setStatus(Status.WAITING);
         if (task.getPriority() == null) {
             task.setPriority(Priority.MIDDLE);
+        }
+
+        Integer executorId = createTaskDto.getExecutorId();
+        if (executorId != null) {
+            User executor = userRepository.findById(executorId)
+                    .orElseThrow(() -> new NotFoundException("Невозможно создать задачу." +
+                            " Исполнитель с id " + executorId + " не найден"));
+            task.setExecutor(executor);
         }
         task.setAuthor(user);
         return mapper.map(taskRepository.save(task), TaskDto.class);
@@ -73,11 +86,11 @@ public class TaskServiceImpl implements TaskService {
                 .orElseThrow(() -> new NotFoundException("Невозможно удалить задачу. Задача с id " + taskId +
                         " не найдена"));
         User user = userPrincipalService.getUserFromPrincipal(principal);
-        if (user.getId() == task.getAuthor().getId() || user.getId() == task.getExecutor().getId()) {
+        if (user.getId() == task.getAuthor().getId()) {
             taskRepository.deleteById(taskId);
         } else {
             throw new PermissionDeniedException("Невозможно удалить задачу. " +
-                    "Удалить задачу может только автор или исполнитель");
+                    "Удалить задачу может только автор");
         }
     }
 
@@ -90,27 +103,13 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public List<TaskDto> getTasksByAuthor(int authorId, Status status, Pageable pageable) {
+    public List<TaskDto> getTasksByFilters(Integer authorId, Integer executorId,
+                                        Status status, Priority priority, Pageable pageable) {
 
-        //todo добавить фильтр по статусу!!!
+        Specification<Task> specification = searchParametersToSpecification(authorId, executorId, status, priority);
 
-        User user = userRepository.findById(authorId)
-                .orElseThrow(() -> new NotFoundException("Невозможно получить список задач. Пользователь с id "
-                        + authorId + " не найден"));
-        return taskRepository.findByAuthor(user, pageable).stream()
-                .map(task -> mapper.map(task, TaskDto.class)).collect(Collectors.toList());
-    }
-
-    @Override
-    public List<TaskDto> getTasksByExecutor(int executorId, Status status, Pageable pageable) {
-
-        //todo добавить фильтр по статусу!!!
-
-        User user = userRepository.findById(executorId)
-                .orElseThrow(() -> new NotFoundException("Невозможно получить список задач. Пользователь с id "
-                        + executorId + " не найден"));
-        return taskRepository.findByExecutor(user, pageable).stream()
-                .map(task -> mapper.map(task, TaskDto.class)).collect(Collectors.toList());
+        return taskRepository.findAll(specification, pageable)
+                .stream().map(task -> mapper.map(task, TaskDto.class)).collect(Collectors.toList());
     }
 
     @Override
@@ -155,7 +154,36 @@ public class TaskServiceImpl implements TaskService {
         Note note = mapper.map(createNoteDto, Note.class);
         note.setAuthor(user);
         note.setWriteDate(LocalDate.now());
-        task.addNotes(mapper.map(note, NoteDto.class));
+//        task.addNotes(mapper.map(note, NoteDto.class));
+        // todo NOTEDTO
+        task.addNotes(note);
         return mapper.map(taskRepository.save(task), TaskDto.class);
+    }
+
+    private Specification<Task> searchParametersToSpecification(Integer authorId, Integer executorId,
+                                                                Status status, Priority priority) {
+        User author = new User();
+        User executor = new User();
+
+        if (authorId != null) {
+            author = userRepository.findById(authorId)
+                    .orElseThrow(() -> new NotFoundException("Невозможно получить список задач. Пользователь с id "
+                            + authorId + " не найден"));
+        }
+
+        if (executorId != null) {
+            executor = userRepository.findById(executorId)
+                    .orElseThrow(() -> new NotFoundException("Невозможно получить список задач. Пользователь с id "
+                            + executorId + " не найден"));
+        }
+
+        List<Specification<Task>> specifications = new ArrayList<>();
+        specifications.add(authorId == null ? null : findByAuthor(author));
+        specifications.add(executorId == null ? null : findByExecutor(executor));
+        specifications.add(status == null ? null : findByStatus(status));
+        specifications.add(priority == null ? null : findByPriority(priority));
+
+        return specifications.stream().filter(Objects::nonNull).reduce(Specification::and)
+                .orElse((root, query, criteriaBuilder) -> criteriaBuilder.conjunction());
     }
 }

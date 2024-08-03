@@ -35,9 +35,11 @@ public class Task {
 
     @OneToMany
     @JoinColumn(name = "task_id")
-    private List<NoteDto> notes = new ArrayList<>();
+    //todo NOTEDTO
+    private List<Note> notes = new ArrayList<>();
 
-    public void addNotes(NoteDto noteDto) {
+    //todo NOTEDTO
+    public void addNotes(Note noteDto) {
         notes.add(noteDto);
     }
 }

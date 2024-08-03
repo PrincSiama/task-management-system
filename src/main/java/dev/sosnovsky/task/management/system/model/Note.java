@@ -19,7 +19,7 @@ public class Note {
     private String description;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "author_id")
     private User author;
 
     @Column(name = "write_date")

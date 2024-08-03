@@ -1,7 +1,6 @@
 package dev.sosnovsky.task.management.system.dto;
 
 import dev.sosnovsky.task.management.system.model.Priority;
-import dev.sosnovsky.task.management.system.model.User;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
@@ -15,5 +14,5 @@ public class CreateTaskDto {
 
     private Priority priority;
 
-    private User executor;
+    private Integer executorId;
 }
