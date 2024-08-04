@@ -4,9 +4,11 @@ import dev.sosnovsky.task.management.system.model.Note;
 import dev.sosnovsky.task.management.system.model.Priority;
 import dev.sosnovsky.task.management.system.model.Status;
 import dev.sosnovsky.task.management.system.model.User;
+import lombok.Data;
 
 import java.util.List;
 
+@Data
 public class TaskDto {
     private int id;
 
@@ -18,9 +20,9 @@ public class TaskDto {
 
     private Priority priority;
 
-    private User author;
+    private UserDto author;
 
-    private User executor;
+    private UserDto executor;
 
-    private List<Note> notes;
+    private List<NoteDto> notes;
 }

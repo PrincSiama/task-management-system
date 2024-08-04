@@ -37,14 +37,14 @@ public class TaskController {
         return taskService.create(createTaskDto, principal);
     }
 
-    @PatchMapping("/taskId")
+    @PatchMapping("/{taskId}")
     @Operation(summary = "Обновление задачи. Доступно аутентифицированным пользователям: автору или исполнителю")
     public TaskDto update(@PathVariable @Min(value = 1, message = "id должен быть числом больше нуля") int taskId,
                           @RequestBody JsonPatch jsonPatch, Principal principal) {
         return taskService.update(taskId, jsonPatch, principal);
     }
 
-    @DeleteMapping("/taskId")
+    @DeleteMapping("/{taskId}")
     @Operation(summary = "Удаление задачи. Доступно только автору задачи")
     public void delete(@PathVariable @Min(value = 1, message = "id должен быть числом больше нуля") int taskId,
                        Principal principal) {

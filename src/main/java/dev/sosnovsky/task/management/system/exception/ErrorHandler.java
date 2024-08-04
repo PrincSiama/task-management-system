@@ -5,6 +5,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 @RestControllerAdvice
 public class ErrorHandler {
@@ -28,6 +29,13 @@ public class ErrorHandler {
         e.printStackTrace();
         return new ErrorResponse("Нарушено условие валидации. " +
                 "Указанные данные не соответствуют требованиям валидации", e.getMessage());
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException e) {
+        e.printStackTrace();
+        return new ErrorResponse("Необходимо ввести число", e.getMessage());
     }
 
     @ExceptionHandler

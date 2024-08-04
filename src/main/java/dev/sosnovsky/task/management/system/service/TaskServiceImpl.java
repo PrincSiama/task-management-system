@@ -7,12 +7,12 @@ import com.github.fge.jsonpatch.JsonPatch;
 import com.github.fge.jsonpatch.JsonPatchException;
 import dev.sosnovsky.task.management.system.dto.CreateNoteDto;
 import dev.sosnovsky.task.management.system.dto.CreateTaskDto;
-import dev.sosnovsky.task.management.system.dto.NoteDto;
 import dev.sosnovsky.task.management.system.dto.TaskDto;
 import dev.sosnovsky.task.management.system.exception.NotFoundException;
 import dev.sosnovsky.task.management.system.exception.NotUpdatedException;
 import dev.sosnovsky.task.management.system.exception.PermissionDeniedException;
 import dev.sosnovsky.task.management.system.model.*;
+import dev.sosnovsky.task.management.system.repository.NoteRepository;
 import dev.sosnovsky.task.management.system.repository.TaskRepository;
 import dev.sosnovsky.task.management.system.repository.UserRepository;
 import lombok.AllArgsConstructor;
@@ -35,6 +35,7 @@ import static dev.sosnovsky.task.management.system.specification.TaskSpecificati
 public class TaskServiceImpl implements TaskService {
     private final TaskRepository taskRepository;
     private final UserRepository userRepository;
+    private final NoteRepository noteRepository;
     private final UserPrincipalService userPrincipalService;
     private final ModelMapper mapper;
     private final ObjectMapper objectMapper;
@@ -154,9 +155,8 @@ public class TaskServiceImpl implements TaskService {
         Note note = mapper.map(createNoteDto, Note.class);
         note.setAuthor(user);
         note.setWriteDate(LocalDate.now());
-//        task.addNotes(mapper.map(note, NoteDto.class));
-        // todo NOTEDTO
-        task.addNotes(note);
+        noteRepository.save(note);
+//        task.addNotes(note);
         return mapper.map(taskRepository.save(task), TaskDto.class);
     }
 

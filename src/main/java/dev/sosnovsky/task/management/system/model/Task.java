@@ -2,13 +2,17 @@ package dev.sosnovsky.task.management.system.model;
 
 import dev.sosnovsky.task.management.system.dto.NoteDto;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Data
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "tasks")
 public class Task {
     @Id
@@ -33,13 +37,12 @@ public class Task {
     @JoinColumn(name = "executor_id")
     private User executor;
 
-    @OneToMany
-    @JoinColumn(name = "task_id")
-    //todo NOTEDTO
-    private List<Note> notes = new ArrayList<>();
+    /*@ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "notes", joinColumns = @JoinColumn(name = "task_id"))
+    @Enumerated(EnumType.STRING)
+    private List<Note> notes = new ArrayList<>();*/
 
-    //todo NOTEDTO
-    public void addNotes(Note noteDto) {
-        notes.add(noteDto);
-    }
+    /*public void addNotes(Note note) {
+        notes.add(note);
+    }*/
 }
