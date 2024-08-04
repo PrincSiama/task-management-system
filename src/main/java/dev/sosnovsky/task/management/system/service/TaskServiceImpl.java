@@ -105,7 +105,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public List<TaskDto> getTasksByFilters(Integer authorId, Integer executorId,
-                                        Status status, Priority priority, Pageable pageable) {
+                                           Status status, Priority priority, Pageable pageable) {
 
         Specification<Task> specification = searchParametersToSpecification(authorId, executorId, status, priority);
 
@@ -156,8 +156,7 @@ public class TaskServiceImpl implements TaskService {
         note.setAuthor(user);
         note.setWriteDate(LocalDate.now());
         noteRepository.save(note);
-//        task.addNotes(note);
-        return mapper.map(taskRepository.save(task), TaskDto.class);
+        return mapper.map(taskRepository.findById(task.getId()), TaskDto.class);
     }
 
     private Specification<Task> searchParametersToSpecification(Integer authorId, Integer executorId,

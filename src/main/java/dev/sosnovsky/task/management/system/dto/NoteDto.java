@@ -1,17 +1,18 @@
 package dev.sosnovsky.task.management.system.dto;
 
-import dev.sosnovsky.task.management.system.model.User;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.time.LocalDate;
 
 @Data
+@Schema(description = "Dto для комментария")
 public class NoteDto {
     private int id;
 
     private String description;
 
-    private UserDto user;
+    private UserDto author;
 
     private LocalDate writeDate;
 }

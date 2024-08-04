@@ -1,10 +1,10 @@
 package dev.sosnovsky.task.management.system.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-import java.time.LocalDate;
-
 @Data
+@Schema(description = "Dto для пользователя")
 public class UserDto {
     private int id;
 
@@ -13,6 +13,4 @@ public class UserDto {
     private String lastname;
 
     private String email;
-
-    private LocalDate birthday;
 }

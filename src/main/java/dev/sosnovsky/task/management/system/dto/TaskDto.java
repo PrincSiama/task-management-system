@@ -1,14 +1,14 @@
 package dev.sosnovsky.task.management.system.dto;
 
-import dev.sosnovsky.task.management.system.model.Note;
 import dev.sosnovsky.task.management.system.model.Priority;
 import dev.sosnovsky.task.management.system.model.Status;
-import dev.sosnovsky.task.management.system.model.User;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.util.List;
 
 @Data
+@Schema(description = "Dto для задачи")
 public class TaskDto {
     private int id;
 

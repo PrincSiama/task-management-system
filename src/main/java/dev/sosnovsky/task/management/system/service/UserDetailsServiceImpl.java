@@ -4,7 +4,6 @@ import dev.sosnovsky.task.management.system.exception.NotFoundException;
 import dev.sosnovsky.task.management.system.model.User;
 import dev.sosnovsky.task.management.system.repository.UserRepository;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;

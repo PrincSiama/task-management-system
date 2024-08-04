@@ -1,6 +1,5 @@
 package dev.sosnovsky.task.management.system.model;
 
-import dev.sosnovsky.task.management.system.dto.NoteDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -37,12 +36,7 @@ public class Task {
     @JoinColumn(name = "executor_id")
     private User executor;
 
-    /*@ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "notes", joinColumns = @JoinColumn(name = "task_id"))
-    @Enumerated(EnumType.STRING)
-    private List<Note> notes = new ArrayList<>();*/
-
-    /*public void addNotes(Note note) {
-        notes.add(note);
-    }*/
+    @OneToMany
+    @JoinColumn(name = "task_id")
+    private List<Note> notes = new ArrayList<>();
 }

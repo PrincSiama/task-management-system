@@ -28,7 +28,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                     new UsernamePasswordAuthenticationToken(
                             loginRequest.getEmail(), loginRequest.getPassword()));
         } catch (BadCredentialsException e) {
-            throw new LoginOrPasswordException("Неправильный логин или пароль");
+            throw new LoginOrPasswordException("Необходимо указать корректный логин и пароль");
         }
         UserDetails userDetails = userDetailsService.loadUserByUsername(loginRequest.getEmail());
         String accessToken = jwtTokenUtils.generateAccessToken(userDetails);
