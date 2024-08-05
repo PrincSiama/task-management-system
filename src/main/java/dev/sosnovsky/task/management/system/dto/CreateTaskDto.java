@@ -3,11 +3,13 @@ package dev.sosnovsky.task.management.system.dto;
 import dev.sosnovsky.task.management.system.model.Priority;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 
 @Data
-@RequiredArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
 @Schema(description = "Dto для создания задачи")
 public class CreateTaskDto {
     @NotBlank
@@ -19,4 +21,9 @@ public class CreateTaskDto {
     private Priority priority;
 
     private Integer executorId;
+
+    public CreateTaskDto(String title, String description) {
+        this.title = title;
+        this.description = description;
+    }
 }
