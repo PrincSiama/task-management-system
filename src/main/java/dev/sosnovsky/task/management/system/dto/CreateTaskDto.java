@@ -26,4 +26,16 @@ public class CreateTaskDto {
         this.title = title;
         this.description = description;
     }
+
+    public CreateTaskDto(String title, String description, Priority priority) {
+        this.title = title;
+        this.description = description;
+        this.priority = priority;
+    }
+
+    public CreateTaskDto(String title, String description, Integer executorId) {
+        this.title = title;
+        this.description = description;
+        this.executorId = executorId;
+    }
 }

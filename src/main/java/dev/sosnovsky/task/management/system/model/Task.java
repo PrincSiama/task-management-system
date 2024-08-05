@@ -39,4 +39,21 @@ public class Task {
     @OneToMany
     @JoinColumn(name = "task_id")
     private List<Note> notes = new ArrayList<>();
+
+    public Task(int id, String title, String description, Status status, Priority priority, User author, User executor) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.status = status;
+        this.priority = priority;
+        this.author = author;
+        this.executor = executor;
+    }
+
+    public Task(int id, String title, String description, User author) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.author = author;
+    }
 }
