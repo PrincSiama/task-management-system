@@ -16,7 +16,6 @@ import dev.sosnovsky.task.management.system.repository.NoteRepository;
 import dev.sosnovsky.task.management.system.repository.TaskRepository;
 import dev.sosnovsky.task.management.system.repository.UserRepository;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;

@@ -25,6 +25,13 @@ public class ErrorHandler {
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse handlePermissionDeniedException(PermissionDeniedException e) {
+        e.printStackTrace();
+        return new ErrorResponse("Доступ запрещён. ", e.getMessage());
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
         e.printStackTrace();
         return new ErrorResponse("Нарушено условие валидации. " +
