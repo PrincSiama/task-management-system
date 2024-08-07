@@ -22,12 +22,13 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -115,7 +116,7 @@ public class TaskControllerIntegrationTest {
                 .andExpect(jsonPath("$.id").value(taskDto.getId()));
     }
 
-    /*@Test
+    @Test
     @DirtiesContext
     @WithMockUser(username = "jwalker@user.com")
     @DisplayName("Получение списка задач с фильтрами аутентифицированным пользователем")
@@ -152,8 +153,11 @@ public class TaskControllerIntegrationTest {
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(content().json(objectMapper.writeValueAsString(List.of(taskDto2))));
 
-        //todo проверить, что нашлась одна задача
-    }*/
+        mockMvc.perform(get("/task"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(content().json(objectMapper.writeValueAsString(List.of(taskDto1, taskDto2))));
+    }
 
     @Test
     @DirtiesContext
